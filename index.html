@@ -817,33 +817,279 @@ section { padding: 96px 0; }
 }
 .wa-step p { font-size: .9rem; color: var(--clr-muted); margin: 0; padding-top: 4px; }
 .wa-step strong { color: var(--clr-text); }
-.chat-mockup {
-  background: #111b21;
-  border-radius: 16px; overflow: hidden;
-  border: 1px solid rgba(255,255,255,.06);
+.zone-hint {
+  font-size: .74rem; color: var(--clr-muted); margin-top: 8px;
+  padding: 8px 12px; background: rgba(245,196,0,0.06);
+  border-left: 2px solid var(--clr-yellow); border-radius: 0 6px 6px 0;
+  line-height: 1.5; transition: opacity .3s;
 }
-.chat-header {
-  background: #1f2c34; padding: 14px 18px;
-  display: flex; gap: 12px; align-items: center;
-}
-.chat-avatar {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--clr-yellow);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem;
-}
-.chat-name { font-size: .9rem; font-weight: 700; }
-.chat-online { font-size: .72rem; color: #22c55e; }
-.chat-body { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.chat-msg {
-  max-width: 80%;
-  border-radius: 12px; padding: 10px 14px;
-  font-size: .82rem; line-height: 1.5;
-}
-.chat-msg.in { background: #1f2c34; align-self: flex-start; border-bottom-left-radius: 2px; }
-.chat-msg.out { background: #005c4b; align-self: flex-end; border-bottom-right-radius: 2px; }
-.chat-msg-time { font-size: .68rem; opacity: .5; margin-top: 4px; text-align: right; }
+
+/* =============================================
+   WHATSAPP CHAT MOCKUP — Phone frame
+   ============================================= */
+.wa-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
 @media (max-width: 800px) { .wa-layout { grid-template-columns: 1fr; } }
+
+/* Phone shell */
+.phone-frame {
+  width: 100%; max-width: 340px; margin: 0 auto;
+  background: #1a1a1e;
+  border-radius: 42px;
+  padding: 12px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 0 8px #0d0d0f,
+    0 0 0 9px rgba(255,255,255,.05),
+    0 30px 70px rgba(0,0,0,.7),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+  position: relative;
+}
+/* Side buttons */
+.phone-frame::before {
+  content: '';
+  position: absolute; top: 80px; right: -3px;
+  width: 3px; height: 60px;
+  background: #2a2a2e; border-radius: 0 2px 2px 0;
+  box-shadow: 0 70px 0 #2a2a2e;
+}
+.phone-frame::after {
+  content: '';
+  position: absolute; top: 100px; left: -3px;
+  width: 3px; height: 40px;
+  background: #2a2a2e; border-radius: 2px 0 0 2px;
+  box-shadow: 0 54px 0 #2a2a2e;
+}
+/* Dynamic island */
+.phone-island {
+  width: 90px; height: 22px;
+  background: #0d0d0f;
+  border-radius: 50px;
+  margin: 0 auto 8px;
+  position: relative; z-index: 10;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.04);
+}
+/* Screen */
+.phone-screen {
+  background: #111b21;
+  border-radius: 32px;
+  overflow: hidden;
+  height: 580px;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+/* Status bar */
+.wa-status-bar {
+  background: #1f2c34;
+  padding: 6px 20px 4px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .62rem; font-weight: 700; color: rgba(255,255,255,.85);
+  letter-spacing: .02em;
+  flex-shrink: 0;
+}
+.wa-status-icons { display: flex; align-items: center; gap: 5px; }
+.wa-signal { display: flex; align-items: flex-end; gap: 1.5px; }
+.wa-signal span {
+  width: 3px; background: rgba(255,255,255,.85); border-radius: 1px;
+}
+.wa-signal span:nth-child(1) { height: 4px; }
+.wa-signal span:nth-child(2) { height: 6px; }
+.wa-signal span:nth-child(3) { height: 9px; }
+.wa-signal span:nth-child(4) { height: 11px; }
+.wa-battery {
+  width: 20px; height: 10px;
+  border: 1.5px solid rgba(255,255,255,.7); border-radius: 2px;
+  position: relative;
+}
+.wa-battery::before {
+  content: '';
+  position: absolute; top: 1.5px; left: 1.5px; right: 3.5px; bottom: 1.5px;
+  background: rgba(255,255,255,.75); border-radius: 1px;
+}
+.wa-battery::after {
+  content: '';
+  position: absolute; top: 2.5px; right: -4px;
+  width: 2.5px; height: 4px;
+  background: rgba(255,255,255,.6); border-radius: 0 1px 1px 0;
+}
+
+/* WA Header */
+.wa-chat-header {
+  background: #1f2c34;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,.3);
+}
+.wa-back { color: #25d366; font-size: 1.1rem; margin-right: 2px; }
+.wa-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, #f5c400, #e5a800);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 900; color: #0a0a0a; letter-spacing: 0;
+  flex-shrink: 0;
+}
+.wa-contact { flex: 1; min-width: 0; }
+.wa-contact-name { font-size: .88rem; font-weight: 700; color: #e9edef; line-height: 1.2; }
+.wa-contact-status {
+  font-size: .68rem; color: #8696a0;
+  display: flex; align-items: center; gap: 4px;
+}
+.wa-online-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #25d366;
+  animation: pulse-green 2s infinite;
+}
+.wa-header-icons { display: flex; gap: 14px; color: #8696a0; flex-shrink: 0; }
+.wa-header-icons svg { width: 19px; height: 19px; }
+
+/* Chat wallpaper */
+.wa-chat-bg {
+  flex: 1; overflow: hidden; position: relative;
+  background-color: #0b141a;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.025' stroke-width='.8'%3E%3Ccircle cx='10' cy='10' r='5'/%3E%3Ccircle cx='50' cy='50' r='5'/%3E%3Ccircle cx='70' cy='20' r='3'/%3E%3Ccircle cx='30' cy='70' r='3'/%3E%3Cpath d='M0 0 l80 80M80 0 l-80 80' stroke-opacity='.01'/%3E%3C/g%3E%3C/svg%3E");
+  display: flex; flex-direction: column;
+}
+.wa-messages {
+  flex: 1; overflow: hidden; padding: 12px 10px;
+  display: flex; flex-direction: column; gap: 3px;
+  justify-content: flex-end;
+}
+
+/* Date chip */
+.wa-date-chip {
+  align-self: center;
+  background: rgba(11,20,26,.85);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: .65rem; color: rgba(255,255,255,.5); font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* Bubbles */
+.wa-msg {
+  max-width: 78%; position: relative;
+  animation: wa-pop .25s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes wa-pop {
+  from { opacity: 0; transform: scale(.9) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.wa-msg.in { align-self: flex-start; }
+.wa-msg.out { align-self: flex-end; }
+
+.wa-bubble {
+  border-radius: 8px;
+  padding: 7px 10px 4px;
+  font-size: .78rem; line-height: 1.45; color: #e9edef;
+  position: relative; word-break: break-word;
+}
+.wa-msg.in .wa-bubble {
+  background: #1f2c34;
+  border-top-left-radius: 0;
+}
+.wa-msg.in .wa-bubble::before {
+  content: '';
+  position: absolute; top: 0; left: -7px;
+  width: 0; height: 0;
+  border-top: 8px solid #1f2c34;
+  border-left: 7px solid transparent;
+}
+.wa-msg.out .wa-bubble {
+  background: #005c4b;
+  border-top-right-radius: 0;
+}
+.wa-msg.out .wa-bubble::before {
+  content: '';
+  position: absolute; top: 0; right: -7px;
+  width: 0; height: 0;
+  border-top: 8px solid #005c4b;
+  border-right: 7px solid transparent;
+}
+.wa-msg-footer {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 3px; margin-top: 2px;
+  font-size: .6rem; color: rgba(255,255,255,.4);
+}
+.wa-ticks { color: #53bdeb; font-size: .7rem; line-height: 1; }
+
+/* Voice message */
+.wa-voice {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px 4px;
+}
+.wa-play { width: 32px; height: 32px; border-radius: 50%; background: #25d366;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.wa-play svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
+.wa-waveform {
+  flex: 1; display: flex; align-items: center; gap: 2px; height: 28px;
+}
+.wa-waveform span {
+  flex: 1; border-radius: 2px; background: rgba(255,255,255,.2);
+  animation: waveAnim 1.2s ease-in-out infinite alternate;
+}
+@keyframes waveAnim {
+  from { transform: scaleY(.4); }
+  to   { transform: scaleY(1); }
+}
+.wa-waveform span:nth-child(even) { animation-delay: .15s; background: rgba(255,255,255,.3); }
+.wa-waveform span:nth-child(3n) { animation-delay: .3s; }
+.wa-voice-dur { font-size: .62rem; color: rgba(255,255,255,.4); flex-shrink: 0; }
+
+/* Quick reply chips */
+.wa-quick-replies {
+  display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px 4px;
+}
+.wa-qr {
+  border: 1px solid #25d366; color: #25d366;
+  border-radius: 18px; padding: 5px 12px;
+  font-size: .71rem; font-weight: 700;
+  background: rgba(37,211,102,.06);
+  cursor: default;
+  animation: wa-pop .3s both;
+}
+
+/* Typing indicator */
+.wa-typing-wrap { align-self: flex-start; }
+.wa-typing-bubble {
+  background: #1f2c34; border-radius: 8px; border-top-left-radius: 0;
+  padding: 10px 14px; display: flex; gap: 4px; align-items: center;
+  position: relative;
+}
+.wa-typing-bubble::before {
+  content: '';
+  position: absolute; top: 0; left: -7px;
+  border-top: 8px solid #1f2c34;
+  border-left: 7px solid transparent;
+}
+.wa-typing-bubble span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #8696a0;
+  animation: wa-typing 1.4s infinite ease-in-out;
+}
+.wa-typing-bubble span:nth-child(2) { animation-delay: .2s; }
+.wa-typing-bubble span:nth-child(3) { animation-delay: .4s; }
+@keyframes wa-typing {
+  0%,60%,100% { transform: translateY(0); opacity: .4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* WA input bar */
+.wa-input-bar {
+  background: #1f2c34; padding: 8px 10px;
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  border-top: 1px solid rgba(0,0,0,.2);
+}
+.wa-input-field {
+  flex: 1; background: #2a3942; border-radius: 20px;
+  padding: 8px 14px; font-size: .77rem; color: #8696a0;
+}
+.wa-send {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: #25d366;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wa-send svg { width: 17px; height: 17px; fill: #fff; margin-left: 2px; }
 
 /* =============================================
    FAQ
@@ -1242,51 +1488,61 @@ section { padding: 96px 0; }
           </div>
         </div>
         <div class="form-group">
+          <label>Zona de origen</label>
+          <div class="selector-group" id="zoneSelector">
+            <button class="selector-btn active" data-zone="centro">📍 Santiago Centro</button>
+            <button class="selector-btn" data-zone="pericentro">🏙️ Comunas pericentro</button>
+            <button class="selector-btn" data-zone="vespucio">🔵 Fuera de Vespucio</button>
+            <button class="selector-btn" data-zone="fuera">🛣️ Fuera de Santiago</button>
+          </div>
+          <div class="zone-hint" id="zoneHint">Providencia, Ñuñoa, San Miguel, Independencia, San Joaquín…</div>
+        </div>
+        <div class="form-group">
           <label>Horario del servicio</label>
           <div class="selector-group" id="timeSelector">
             <button class="selector-btn active" data-time="diurno">☀️ Diurno</button>
-            <button class="selector-btn" data-time="nocturno">🌙 Nocturno</button>
-            <button class="selector-btn" data-time="urgencia">🚨 Urgencia</button>
+            <button class="selector-btn" data-time="nocturno">🌙 Nocturno +30%</button>
+            <button class="selector-btn" data-time="urgencia">🚨 Urgencia +50%</button>
           </div>
         </div>
-        <div class="form-group">
-          <label>Distancia estimada</label>
+        <div class="form-group" id="distanceGroup" style="display:none;">
+          <label>Distancia estimada de traslado</label>
           <div class="range-wrap">
-            <input type="range" class="distance-slider" id="distanceSlider" min="5" max="60" value="20" step="1">
+            <input type="range" class="distance-slider" id="distanceSlider" min="5" max="120" value="30" step="5">
             <div class="distance-labels">
               <span>5 km</span>
-              <span>60 km</span>
+              <span>120 km</span>
             </div>
-            <span class="distance-val" id="distanceVal">20 km</span>
+            <span class="distance-val" id="distanceVal">30 km</span>
           </div>
         </div>
       </div>
       <!-- Display -->
       <div class="cotizador-display">
         <div class="price-label">PRECIO ESTIMADO (CLP)</div>
-        <span class="price-main" id="priceMain">$26.000</span>
-        <div class="price-sub">Valor referencial sin IVA</div>
+        <span class="price-main" id="priceMain">$40.000</span>
+        <div class="price-sub">Valor referencial · Cotización exacta al llamar</div>
         <div class="price-breakdown">
           <div class="price-row">
-            <span>Tarifa base</span>
-            <span id="breakBase">$15.000</span>
+            <span id="breakBaseLabel">Tarifa zona (Auto · Santiago Centro)</span>
+            <span id="breakBase">$40.000</span>
           </div>
-          <div class="price-row">
-            <span>Distancia (<span id="breakKm">20</span> km)</span>
-            <span id="breakDist">$13.000</span>
+          <div class="price-row" id="breakDistRow" style="display:none;">
+            <span>Distancia (<span id="breakKm">30</span> km × $1.800)</span>
+            <span id="breakDist">$54.000</span>
           </div>
-          <div class="price-row">
-            <span>Multiplicador horario</span>
-            <span id="breakMult">×1.0</span>
+          <div class="price-row" id="breakMultRow">
+            <span>Horario</span>
+            <span id="breakMult">× 1.0 (diurno)</span>
           </div>
           <div class="price-row total">
             <span>Total estimado</span>
-            <span id="breakTotal">$28.000</span>
+            <span id="breakTotal">$40.000</span>
           </div>
         </div>
-        <p class="price-disclaimer">Valor referencial. La cotización exacta se entrega al contactar a un operador, según condiciones reales del servicio.</p>
+        <p class="price-disclaimer">Valor referencial. La cotización exacta se entrega al contactar a un operador, según distancia real, condiciones del vehículo y tipo de servicio.</p>
         <a href="https://wa.me/56984062331?text=Hola%2C%20quiero%20cotizar%20una%20gr%C3%BAa%20en%20Santiago" class="btn btn-yellow magnetic-btn" style="width:100%;justify-content:center;" target="_blank" rel="noopener">
-          💬 Confirmar por WhatsApp
+          💬 Cotizar exacto por WhatsApp
         </a>
       </div>
     </div>
@@ -1528,38 +1784,53 @@ section { padding: 96px 0; }
           </a>
         </div>
       </div>
-      <div class="chat-mockup reveal" aria-label="Ejemplo de conversación por WhatsApp">
-        <div class="chat-header">
-          <div class="chat-avatar">🚛</div>
-          <div>
-            <div class="chat-name">Grúas Centro Express</div>
-            <div class="chat-online">● En línea ahora</div>
+      <!-- Phone frame WhatsApp mockup -->
+      <div class="phone-frame reveal" aria-label="Ejemplo de conversación por WhatsApp">
+        <div class="phone-island"></div>
+        <div class="phone-screen">
+          <!-- Status bar -->
+          <div class="wa-status-bar">
+            <span id="wa-clock">10:41</span>
+            <div class="wa-status-icons">
+              <div class="wa-signal">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.8">
+                <path d="M7 2.5C8.67 2.5 10.16 3.19 11.24 4.29L12.66 2.87C11.2 1.43 9.2.5 7 .5s-4.2.93-5.66 2.37L2.76 4.29C3.84 3.19 5.33 2.5 7 2.5z" fill="rgba(255,255,255,.8)"/>
+                <path d="M7 5.5c1.01 0 1.92.39 2.6 1.02l1.42-1.42A5.48 5.48 0 007 3.5a5.48 5.48 0 00-4.02 1.6L4.4 6.52A3.49 3.49 0 017 5.5z" fill="rgba(255,255,255,.8)"/>
+                <circle cx="7" cy="8.5" r="1.5" fill="rgba(255,255,255,.8)"/>
+              </svg>
+              <div class="wa-battery"></div>
+            </div>
           </div>
-        </div>
-        <div class="chat-body">
-          <div class="chat-msg out">
-            Hola, necesito una grúa. Mi auto no enciende en Providencia cerca del metro Baquedano.
-            <div class="chat-msg-time">10:42 ✓✓</div>
+          <!-- WA Header -->
+          <div class="wa-chat-header">
+            <span class="wa-back">‹</span>
+            <div class="wa-avatar">CE</div>
+            <div class="wa-contact">
+              <div class="wa-contact-name">Grúas Centro Express</div>
+              <div class="wa-contact-status">
+                <span class="wa-online-dot"></span> en línea
+              </div>
+            </div>
+            <div class="wa-header-icons">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            </div>
           </div>
-          <div class="chat-msg in">
-            ¡Hola! Entendido. ¿Puedes compartir tu ubicación exacta? ¿Qué modelo de auto tienes?
-            <div class="chat-msg-time">10:42</div>
+          <!-- Chat area -->
+          <div class="wa-chat-bg">
+            <div class="wa-messages" id="waMessages">
+              <!-- injected by JS -->
+            </div>
+            <!-- Quick replies injected dynamically -->
           </div>
-          <div class="chat-msg out">
-            [Ubicación compartida] · Toyota Yaris 2019
-            <div class="chat-msg-time">10:43 ✓✓</div>
-          </div>
-          <div class="chat-msg in">
-            Perfecto. Tenemos grúa disponible a 8 minutos. Servicio desde $18.000 CLP. ¿Confirmamos?
-            <div class="chat-msg-time">10:43</div>
-          </div>
-          <div class="chat-msg out">
-            Sí, confirmo. Gracias!
-            <div class="chat-msg-time">10:44 ✓✓</div>
-          </div>
-          <div class="chat-msg in">
-            ¡Listo! Grúa en camino. Te avisamos cuando esté llegando. 🚛
-            <div class="chat-msg-time">10:44</div>
+          <!-- Input bar -->
+          <div class="wa-input-bar">
+            <div class="wa-input-field">Mensaje…</div>
+            <div class="wa-send">
+              <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </div>
           </div>
         </div>
       </div>
@@ -1976,9 +2247,8 @@ section { padding: 96px 0; }
 
     function onScroll() {
       const sy = window.scrollY;
-      if (heroImgWrap) heroImgWrap.style.transform = `translateY(${sy * 0.4}px)`;
-      if (heroTitleWrap) heroTitleWrap.style.transform = `translateY(${sy * 0.15}px)`;
-      if (heroStatsWrap) heroStatsWrap.style.transform = `translateY(${sy * 0.08}px)`;
+      // Only parallax the background image — content stays aligned to avoid text overlap
+      if (heroImgWrap) heroImgWrap.style.transform = `translateY(${sy * 0.35}px)`;
     }
     window.addEventListener('scroll', onScroll, { passive: true });
   }
@@ -2106,30 +2376,58 @@ section { padding: 96px 0; }
   });
 
   /* =============================================
-     COTIZADOR (QUOTE SIMULATOR)
+     COTIZADOR (QUOTE SIMULATOR) — REAL PRICING
      ============================================= */
-  const vehicleRates = {
-    auto:      { base: 15000, km: 650 },
-    suv:       { base: 18000, km: 750 },
-    camioneta: { base: 22000, km: 900 },
-    furgon:    { base: 25000, km: 1000 },
-    maquinaria:{ base: 35000, km: 1400 },
+
+  // Zone hints text
+  const zoneHints = {
+    centro:     'San Isidro, Alameda, Barrio Italia, Yungay, Recoleta, Barrio Lastarria…',
+    pericentro: 'Providencia, Ñuñoa, San Miguel, Independencia, San Joaquín, Macul…',
+    vespucio:   'Maipú, La Florida, Puente Alto, Las Condes, Vitacura, La Reina, Lo Barnechea…',
+    fuera:      'San Bernardo, Buin, Melipilla, Colina, Talagante, Peñaflor, Til Til…',
+  };
+
+  // Pricing per zone per vehicle size
+  // sizes: pequeño (auto) / mediano (suv, camioneta) / grande (furgon, maquinaria)
+  const zonePrices = {
+    centro:     { pequeno: 40000, mediano: 45000, grande: 50000 },
+    pericentro: { pequeno: 45000, mediano: 50000, grande: 55000 },
+    vespucio:   { pequeno: 50000, mediano: 55000, grande: 60000 },
+    fuera:      { base: 25000, km: 1800 },  // distance-based
+  };
+
+  const vehicleSize = {
+    auto: 'pequeno', suv: 'mediano', camioneta: 'mediano',
+    furgon: 'grande', maquinaria: 'grande',
+  };
+  const vehicleLabel = {
+    auto: 'Auto', suv: 'SUV', camioneta: 'Camioneta',
+    furgon: 'Furgón', maquinaria: 'Maquinaria',
+  };
+  const zoneLabel = {
+    centro: 'Santiago Centro', pericentro: 'Pericentro',
+    vespucio: 'Fuera de Vespucio', fuera: 'Fuera de Santiago',
   };
   const timeMultipliers = { diurno: 1.0, nocturno: 1.3, urgencia: 1.5 };
-  const timeLabels = { diurno: '×1.0 (normal)', nocturno: '×1.3 (nocturno)', urgencia: '×1.5 (urgencia)' };
+  const timeLabels = { diurno: '× 1.0 (diurno)', nocturno: '× 1.3 (nocturno +30%)', urgencia: '× 1.5 (urgencia +50%)' };
 
   let selectedVehicle = 'auto';
+  let selectedZone = 'centro';
   let selectedTime = 'diurno';
-  let selectedDist = 20;
+  let selectedDist = 30;
 
   const priceMain = document.getElementById('priceMain');
   const breakBase = document.getElementById('breakBase');
+  const breakBaseLabel = document.getElementById('breakBaseLabel');
   const breakKm = document.getElementById('breakKm');
   const breakDist = document.getElementById('breakDist');
+  const breakDistRow = document.getElementById('breakDistRow');
   const breakMult = document.getElementById('breakMult');
   const breakTotal = document.getElementById('breakTotal');
   const distanceSlider = document.getElementById('distanceSlider');
   const distanceVal = document.getElementById('distanceVal');
+  const distanceGroup = document.getElementById('distanceGroup');
+  const zoneHintEl = document.getElementById('zoneHint');
 
   function formatCLP(n) {
     return '$' + Math.round(n).toLocaleString('es-CL');
@@ -2137,9 +2435,32 @@ section { padding: 96px 0; }
 
   let lastPrice = 0;
   function updatePrice() {
-    const rates = vehicleRates[selectedVehicle];
+    const size = vehicleSize[selectedVehicle];
     const mult = timeMultipliers[selectedTime];
-    const subtotal = (rates.base + rates.km * selectedDist) * mult;
+    let baseAmt, distAmt = 0, subtotal;
+
+    if (selectedZone === 'fuera') {
+      baseAmt = zonePrices.fuera.base;
+      distAmt = zonePrices.fuera.km * selectedDist;
+      subtotal = (baseAmt + distAmt) * mult;
+      if (breakDistRow) breakDistRow.style.display = '';
+      if (breakKm) breakKm.textContent = selectedDist;
+      if (breakDist) breakDist.textContent = formatCLP(distAmt);
+    } else {
+      baseAmt = zonePrices[selectedZone][size];
+      subtotal = baseAmt * mult;
+      if (breakDistRow) breakDistRow.style.display = 'none';
+    }
+
+    // Update breakdown labels
+    if (breakBaseLabel) {
+      breakBaseLabel.textContent = selectedZone === 'fuera'
+        ? `Tarifa base (${vehicleLabel[selectedVehicle]} · Fuera de Santiago)`
+        : `Tarifa zona (${vehicleLabel[selectedVehicle]} · ${zoneLabel[selectedZone]})`;
+    }
+    if (breakBase) breakBase.textContent = formatCLP(baseAmt);
+    if (breakMult) breakMult.textContent = timeLabels[selectedTime];
+    if (breakTotal) breakTotal.textContent = formatCLP(subtotal);
 
     // Animate number change
     if (priceMain && !prefersReducedMotion) {
@@ -2184,6 +2505,20 @@ section { padding: 96px 0; }
     });
   });
 
+  // Zone selectors
+  document.querySelectorAll('#zoneSelector .selector-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#zoneSelector .selector-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedZone = btn.dataset.zone;
+      // Show/hide distance slider
+      if (distanceGroup) distanceGroup.style.display = selectedZone === 'fuera' ? '' : 'none';
+      // Update hint
+      if (zoneHintEl) zoneHintEl.textContent = zoneHints[selectedZone];
+      updatePrice();
+    });
+  });
+
   // Time selectors
   document.querySelectorAll('#timeSelector .selector-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -2205,6 +2540,178 @@ section { padding: 96px 0; }
 
   // Initial render
   updatePrice();
+
+  /* =============================================
+     WHATSAPP ANIMATED CHAT
+     ============================================= */
+  (function initWAChat() {
+    const waMessages = document.getElementById('waMessages');
+    if (!waMessages) return;
+
+    const msgs = [
+      { type: 'date', text: 'Hoy' },
+      { side: 'out', text: 'Hola! Mi Toyota Corolla no parte en Av. Providencia 1650. Creo que es la batería. Necesito ir al taller en Las Condes.', time: '10:41', ticks: true },
+      { side: 'in',  typing: true, delay: 1200 },
+      { side: 'in',  text: '¡Hola! Recibido 👋 Tenemos una base a 8 min de tu ubicación. ¿El vehículo está en un lugar seguro?', time: '10:42' },
+      { side: 'out', voice: true, dur: '0:22', time: '10:42', ticks: true },
+      { side: 'in',  typing: true, delay: 900 },
+      { side: 'in',  text: 'Perfecto. Tenemos disponibilidad ahora mismo.\n\n📍 *Origen:* Av. Providencia 1650\n🏁 *Destino:* Taller Las Condes\n🚗 *Vehículo:* Toyota Corolla\n💰 *Valor estimado:* $45.000 CLP', time: '10:43' },
+      { type: 'quick', replies: ['✅ Confirmar', '❓ Consultar precio', '📞 Llamar'] },
+      { side: 'out', text: '✅ Confirmo! Gracias.', time: '10:44', ticks: true },
+      { side: 'in',  typing: true, delay: 700 },
+      { side: 'in',  text: '¡Listo! 🚛 Grúa despachada. ETA: 8 minutos.\nTe compartimos la ubicación en tiempo real cuando estén saliendo.', time: '10:44' },
+    ];
+
+    let timers = [];
+    let running = false;
+
+    function clearAll() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      waMessages.innerHTML = '';
+      running = false;
+    }
+
+    function scrollDown() {
+      waMessages.scrollTop = waMessages.scrollHeight;
+    }
+
+    function addDateChip(text) {
+      const el = document.createElement('div');
+      el.className = 'wa-date-chip';
+      el.textContent = text;
+      waMessages.appendChild(el);
+      scrollDown();
+    }
+
+    function addMsg(side, text, time, ticks) {
+      const wrap = document.createElement('div');
+      wrap.className = `wa-msg ${side}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'wa-bubble';
+      // Replace \n with <br>
+      bubble.innerHTML = text.replace(/\n/g, '<br>').replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+      const footer = document.createElement('div');
+      footer.className = 'wa-msg-footer';
+      footer.innerHTML = time + (ticks ? ` <span class="wa-ticks">✓✓</span>` : '');
+      bubble.appendChild(footer);
+      wrap.appendChild(bubble);
+      waMessages.appendChild(wrap);
+      scrollDown();
+    }
+
+    function addVoice(side, dur, time, ticks) {
+      const wrap = document.createElement('div');
+      wrap.className = `wa-msg ${side}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'wa-bubble wa-voice';
+      const heights = [14,20,10,24,16,8,22,12,18,26,10,20,14,24,8,18,22,12,16,20];
+      bubble.innerHTML = `
+        <div class="wa-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="wa-waveform">${heights.map(h=>`<span style="height:${h}px;animation-delay:${Math.random()*.4}s"></span>`).join('')}</div>
+        <span class="wa-voice-dur">${dur}</span>
+      `;
+      const footer = document.createElement('div');
+      footer.className = 'wa-msg-footer';
+      footer.innerHTML = time + (ticks ? ` <span class="wa-ticks">✓✓</span>` : '');
+      bubble.appendChild(footer);
+      wrap.appendChild(bubble);
+      waMessages.appendChild(wrap);
+      scrollDown();
+    }
+
+    function addTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'wa-msg in wa-typing-wrap';
+      wrap.id = 'waTyping';
+      wrap.innerHTML = `<div class="wa-typing-bubble"><span></span><span></span><span></span></div>`;
+      waMessages.appendChild(wrap);
+      scrollDown();
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('waTyping');
+      if (t) t.remove();
+    }
+
+    function addQuickReplies(replies) {
+      const wrap = document.createElement('div');
+      wrap.className = 'wa-quick-replies';
+      wrap.id = 'waQR';
+      replies.forEach(r => {
+        const btn = document.createElement('div');
+        btn.className = 'wa-qr';
+        btn.textContent = r;
+        wrap.appendChild(btn);
+      });
+      waMessages.appendChild(wrap);
+      scrollDown();
+    }
+
+    function removeQuickReplies() {
+      const qr = document.getElementById('waQR');
+      if (qr) qr.remove();
+    }
+
+    function runSequence() {
+      if (running) return;
+      running = true;
+      clearAll();
+      running = true;
+
+      let delay = 400;
+      const step = 900;
+
+      msgs.forEach((m, i) => {
+        if (m.type === 'date') {
+          timers.push(setTimeout(() => addDateChip(m.text), delay));
+          delay += 300;
+        } else if (m.type === 'quick') {
+          timers.push(setTimeout(() => addQuickReplies(m.replies), delay));
+          delay += step;
+        } else if (m.typing) {
+          timers.push(setTimeout(() => addTyping(), delay));
+          delay += (m.delay || 1000);
+          timers.push(setTimeout(() => removeTyping(), delay - 100));
+        } else if (m.voice) {
+          timers.push(setTimeout(() => addVoice(m.side, m.dur, m.time, m.ticks), delay));
+          delay += step;
+        } else {
+          timers.push(setTimeout(() => {
+            removeQuickReplies();
+            addMsg(m.side, m.text, m.time, m.ticks);
+          }, delay));
+          delay += step;
+        }
+      });
+
+      // Loop
+      timers.push(setTimeout(() => {
+        running = false;
+        runSequence();
+      }, delay + 3000));
+    }
+
+    // Start when scrolled into view
+    const chatObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !running) runSequence();
+        if (!e.isIntersecting) clearAll();
+      });
+    }, { threshold: 0.3 });
+    chatObs.observe(waMessages);
+
+    // Live clock in status bar
+    const waClock = document.getElementById('wa-clock');
+    if (waClock) {
+      function updateClock() {
+        const now = new Date();
+        waClock.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+      }
+      updateClock();
+      setInterval(updateClock, 30000);
+    }
+  })();
 
 })();
 </script>
